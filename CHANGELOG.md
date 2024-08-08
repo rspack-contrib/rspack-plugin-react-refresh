@@ -1,1 +1,1 @@
-# @rspack/plugin-preact-refresh
+# @rspack/plugin-react-refresh
