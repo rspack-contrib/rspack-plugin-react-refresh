@@ -1,6 +1,6 @@
 {
   "name": "@rspack/plugin-react-refresh",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "repository": "https://github.com/rspack-contrib/rspack-plugin-react-refresh",
   "license": "MIT",
   "description": "React refresh plugin for rspack",
@@ -23,7 +23,10 @@
     "test": "jest --colors",
     "release": "node ./scripts/release.mjs"
   },
-  "files": ["client", "dist"],
+  "files": [
+    "client",
+    "dist"
+  ],
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"
   },
