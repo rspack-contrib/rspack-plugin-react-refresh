@@ -39,7 +39,7 @@ fs.writeFileSync(
 console.info(`Publishing to npm with tag ${RELEASE_TAG}`);
 const dryRun = RELEASE_DRY_RUN === 'true' ? ['--dry-run'] : [];
 try {
-  await $`pnpm publish ${dryRun} --tag ${RELEASE_TAG} --no-git-checks`;
+  await $`pnpm publish ${dryRun} --tag ${RELEASE_TAG} --no-git-checks --provenance`;
   console.info(`Published successfully`);
 } catch (e) {
   console.error(`Publish failed: ${e.message}`);
