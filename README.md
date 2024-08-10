@@ -5,6 +5,12 @@
 
 # @rspack/plugin-react-refresh
 
+<p>
+  <a href="https://www.npmjs.com/package/@@rspack/plugin-react-refresh?activeTab=readme"><img src="https://img.shields.io/npm/v/@@rspack/plugin-react-refresh?style=flat-square&colorA=564341&colorB=EDED91" alt="npm version" /></a>
+  <a href="https://npmcharts.com/compare/@@rspack/plugin-react-refresh?minimal=true"><img src="https://img.shields.io/npm/dm/@@rspack/plugin-react-refresh.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="downloads" /></a>
+  <a href="https://github.com/web-infra-dev/rspack/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="license" /></a>
+</p>
+
 React refresh plugin for [Rspack](https://github.com/web-infra-dev/rspack).
 
 ## Installation
@@ -29,8 +35,8 @@ Enabling [React Fast Refresh](https://reactnative.dev/docs/fast-refresh) functio
 - Code transformation can be added through loaders, such as [jsc.transform.react.refresh](https://swc.rs/docs/configuration/compilation#jsctransformreactrefresh) for [swc-loader](https://swc.rs/docs/usage/swc-loader) or the [react-refresh/babel](https://github.com/facebook/react/tree/main/packages/react-refresh) for [babel-loader](https://github.com/babel/babel-loader).
 
 ```js
-const ReactRefreshPlugin = require('@rspack/plugin-react-refresh');
-const isDev = process.env.NODE_ENV === 'development';
+const ReactRefreshPlugin = require("@rspack/plugin-react-refresh");
+const isDev = process.env.NODE_ENV === "development";
 
 module.exports = {
   experiments: {
@@ -39,17 +45,17 @@ module.exports = {
     },
   },
   // ...
-  mode: isDev ? 'development' : 'production',
+  mode: isDev ? "development" : "production",
   module: {
     rules: [
       {
         test: /\.jsx$/,
         use: {
-          loader: 'builtin:swc-loader',
+          loader: "builtin:swc-loader",
           options: {
             jsc: {
               parser: {
-                syntax: 'ecmascript',
+                syntax: "ecmascript",
                 jsx: true,
               },
               transform: {
@@ -81,4 +87,4 @@ Thanks to the [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-ref
 
 ## License
 
-Rspack is [MIT licensed](https://github.com/web-infra-dev/rspack/blob/main/LICENSE).
+`@rspack/plugin-react-refresh` is [MIT licensed](https://github.com/web-infra-dev/rspack/blob/main/LICENSE).
