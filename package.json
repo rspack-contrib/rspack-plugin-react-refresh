@@ -38,7 +38,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@rspack/core": "1.0.14",
-    "@types/node": "^20.17.5",
+    "@types/node": "^22.8.6",
     "@types/jest": "29.5.14",
     "react-refresh": "^0.14.2",
     "cross-env": "^7.0.3",
