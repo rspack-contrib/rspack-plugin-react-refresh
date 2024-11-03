@@ -109,6 +109,61 @@ new ReactRefreshPlugin({
 });
 ```
 
+### forceEnable
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to force enable the plugin.
+
+By default, the plugin will not be enabled in non-development environments. If you want to force enable the plugin, you can set this option to `true`.
+
+```js
+new ReactRefreshPlugin({
+  forceEnable: true,
+});
+```
+
+It is useful if you want to:
+
+- Use the plugin in production.
+- Use the plugin with the `none` mode without setting `NODE_ENV`.
+- Use the plugin in environments we do not support, such as `electron-prerender` (**WARNING: Proceed at your own risk**).
+
+### library
+
+- Type: `string`
+- Default: `output.uniqueName || output.library`
+
+Sets a namespace for the React Refresh runtime.
+
+It is most useful when multiple instances of React Refresh is running together simultaneously.
+
+### overlay
+
+- Type: `boolean | OverlayOptions`
+- Default: `false`
+
+Modify the behavior of the error overlay.
+
+- Enable the error overlay:
+
+```js
+new ReactRefreshPlugin({
+  overlay: true,
+});
+```
+
+- Configure the error overlay:
+
+```js
+new ReactRefreshPlugin({
+  overlay: {
+    // ...
+  },
+});
+```
+
 ## Credits
 
 Thanks to the [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) created by [@pmmmwh](https://github.com/pmmmwh), which inspires implement this plugin.

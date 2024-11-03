@@ -24,8 +24,24 @@ export type PluginOptions = {
    * @default /node_modules/
    */
   exclude?: RuleSetCondition | null;
+  /**
+   * Sets a namespace for the React Refresh runtime.
+   * It is most useful when multiple instances of React Refresh is running
+   * together simultaneously.
+   * @default `output.uniqueName || output.library`
+   */
   library?: string;
+  /**
+   * Whether to force enable the plugin.
+   * By default, the plugin will not be enabled in non-development environments.
+   * If you want to force enable the plugin, you can set this option to `true`.
+   * @default false
+   */
   forceEnable?: boolean;
+  /**
+   * Modify the behavior of the error overlay.
+   * @default false
+   */
   overlay?: boolean | OverlayOptions;
 };
 
