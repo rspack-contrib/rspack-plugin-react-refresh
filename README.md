@@ -81,6 +81,34 @@ Compared to the previous approach, this method decouples the React Fast Refresh 
 - For usage with `builtin:swc-loader`, you can refer to the example at [examples/react-refresh](https://github.com/rspack-contrib/rspack-examples/tree/main/rspack/react-refresh/rspack.config.js), When using with `swc-loader`, simply replace `builtin:swc-loader` with `swc-loader`.
 - For usage with `babel-loader`, you can refer to the example at [examples/react-refresh-babel-loader](https://github.com/rspack-contrib/rspack-examples/tree/main/rspack/react-refresh-babel-loader/rspack.config.js)
 
+## Options
+
+### include
+
+- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Default: `/\.([cm]js|[jt]sx?|flow)$/i`
+
+Include files to be processed by the plugin. The value is the same as the `rule.test` option in Rspack.
+
+```js
+new ReactRefreshPlugin({
+  include: [/\.jsx$/, /\.tsx$/],
+});
+```
+
+### exclude
+
+- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Default: `/node_modules/`
+
+Exclude files from being processed by the plugin. The value is the same as the `rule.exclude` option in Rspack.
+
+```js
+new ReactRefreshPlugin({
+  exclude: [/node_modules/, /some-other-module/],
+});
+```
+
 ## Credits
 
 Thanks to the [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) created by [@pmmmwh](https://github.com/pmmmwh), which inspires implement this plugin.
