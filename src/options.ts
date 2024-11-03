@@ -1,3 +1,4 @@
+import type { RuleSetCondition } from '@rspack/core';
 import type { IntegrationType } from './utils/getSocketIntegration';
 
 interface OverlayOptions {
@@ -11,8 +12,18 @@ interface OverlayOptions {
 }
 
 export type PluginOptions = {
-  include?: string | RegExp | (string | RegExp)[] | null;
-  exclude?: string | RegExp | (string | RegExp)[] | null;
+  /**
+   * Include files to be processed by the plugin.
+   * The value is the same as the `rule.test` option in Rspack.
+   * @default /\.([cm]js|[jt]sx?|flow)$/i
+   */
+  include?: RuleSetCondition | null;
+  /**
+   * Exclude files from being processed by the plugin.
+   * The value is the same as the `rule.exclude` option in Rspack.
+   * @default /node_modules/
+   */
+  exclude?: RuleSetCondition | null;
   library?: string;
   forceEnable?: boolean;
   overlay?: boolean | OverlayOptions;
