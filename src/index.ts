@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { normalizeOptions } from './options';
+import { reactRefreshPath, refreshUtilsPath, runtimePaths } from './paths';
 import { getAdditionalEntries } from './utils/getAdditionalEntries';
 import { getSocketIntegration } from './utils/getSocketIntegration';
 
@@ -7,23 +8,6 @@ import type { Compiler } from '@rspack/core';
 import type { NormalizedPluginOptions, PluginOptions } from './options';
 
 export type { PluginOptions };
-
-const reactRefreshPath = require.resolve('../client/reactRefresh.js');
-const reactRefreshEntryPath = require.resolve('../client/reactRefreshEntry.js');
-
-const refreshUtilsPath = require.resolve('../client/refreshUtils.js');
-const refreshRuntimeDirPath = path.dirname(
-  require.resolve('react-refresh', {
-    paths: [reactRefreshPath],
-  }),
-);
-
-const runtimePaths = [
-  reactRefreshEntryPath,
-  reactRefreshPath,
-  refreshUtilsPath,
-  refreshRuntimeDirPath,
-];
 
 class ReactRefreshRspackPlugin {
   options: NormalizedPluginOptions;
