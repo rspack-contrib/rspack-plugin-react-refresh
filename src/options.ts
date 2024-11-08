@@ -42,7 +42,7 @@ export type PluginOptions = {
    * Modify the behavior of the error overlay.
    * @default false
    */
-  overlay?: boolean | OverlayOptions;
+  overlay?: boolean | Partial<OverlayOptions>;
 };
 
 export interface NormalizedPluginOptions extends Required<PluginOptions> {
