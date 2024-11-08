@@ -1,5 +1,6 @@
 import querystring from 'node:querystring';
 import type { NormalizedPluginOptions } from '../options';
+import { reactRefreshEntryPath } from '../paths';
 
 export interface AdditionalEntries {
   prependEntries: string[];
@@ -86,7 +87,7 @@ export function getAdditionalEntries({
 
   const prependEntries = [
     // React-refresh runtime
-    require.resolve('../../client/reactRefreshEntry'),
+    reactRefreshEntryPath,
   ];
 
   const overlayEntries = [
