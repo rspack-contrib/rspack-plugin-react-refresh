@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@rspack/core": "1.0.14",
-    "@types/node": "^22.8.6",
+    "@rspack/core": "1.1.4",
+    "@types/node": "^22.10.1",
     "@types/jest": "29.5.14",
     "react-refresh": "^0.14.2",
     "cross-env": "^7.0.3",
@@ -51,7 +51,7 @@
     "semver": "7.6.3",
     "simple-git-hooks": "^2.11.1",
     "ts-jest": "29.2.5",
-    "typescript": "5.6.3"
+    "typescript": "5.7.2"
   },
   "dependencies": {
     "error-stack-parser": "^2.1.4",
@@ -65,7 +65,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@9.14.4",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
