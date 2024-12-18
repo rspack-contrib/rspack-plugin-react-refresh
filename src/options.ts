@@ -4,7 +4,7 @@ import type { IntegrationType } from './utils/getSocketIntegration';
 interface OverlayOptions {
   entry: string;
   module: string;
-  sockIntegration: IntegrationType;
+  sockIntegration: IntegrationType | false;
   sockHost?: string;
   sockPath?: string;
   sockPort?: string;
