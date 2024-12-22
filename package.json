@@ -24,10 +24,7 @@
     "test": "jest --colors",
     "release": "node ./scripts/release.mjs"
   },
-  "files": [
-    "client",
-    "dist"
-  ],
+  "files": ["client", "dist"],
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"
   },
@@ -59,10 +56,11 @@
     "html-entities": "^2.5.2"
   },
   "peerDependencies": {
-    "react-refresh": ">=0.10.0 <1.0.0"
+    "react-refresh": ">=0.10.0 <1.0.0",
+    "webpack-hot-middleware": "2.x"
   },
   "peerDependenciesMeta": {
-    "react-refresh": {
+    "webpack-hot-middleware": {
       "optional": true
     }
   },
