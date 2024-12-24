@@ -153,4 +153,20 @@ describe("react-refresh-rspack-plugin", () => {
 			}
 		);
 	});
+
+	it("should include entries for webpack-hot-middleware", done => {
+		compileWithReactRefresh(
+			path.join(__dirname, "fixtures/custom"),
+			{
+				overlay: {
+					sockIntegration: 'whm'
+				}
+			},
+			(_, __, { fixture }) => {
+				expect(fixture).toContain("webpack-hot-middleware/client");
+				expect(fixture).toContain("WHMEventSource.js");
+				done();
+			}
+		);
+	});
 });
