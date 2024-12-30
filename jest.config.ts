@@ -1,7 +1,7 @@
-const path = require('node:path');
+import { type JestConfigWithTsJest, createDefaultPreset } from 'ts-jest';
 
-/** @type {import('jest').Config} */
-const config = {
+export default {
+  ...createDefaultPreset(),
   watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/tests/dist'],
   testEnvironment: './scripts/patch-node-env.cjs',
   testTimeout: process.env.CI ? 60000 : 30000,
@@ -10,6 +10,4 @@ const config = {
     updateSnapshot:
       process.argv.includes('-u') || process.argv.includes('--updateSnapshot'),
   },
-};
-
-module.exports = config;
+} satisfies JestConfigWithTsJest;

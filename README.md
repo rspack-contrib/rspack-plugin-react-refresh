@@ -146,6 +146,8 @@ It is most useful when multiple instances of React Refresh is running together s
 
 Modify the behavior of the error overlay.
 
+Checkout [OverlayOptions](https://github.com/rspack-contrib/rspack-plugin-react-refresh/blob/main/src/options.ts#L4) type signature for more details.
+
 - Enable the error overlay:
 
 ```js

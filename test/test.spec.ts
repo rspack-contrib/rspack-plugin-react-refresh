@@ -1,10 +1,21 @@
-const fs = require("fs");
-const path = require("path");
-const { rspack } = require("@rspack/core");
-const ReactRefreshPlugin = require("@rspack/plugin-react-refresh");
+import assert from "node:assert"
+import fs from "node:fs"
+import path from "node:path"
+import { type Stats, rspack } from "@rspack/core"
+import ReactRefreshPlugin, { type PluginOptions} from "@rspack/plugin-react-refresh"
+
+type Outputs = {
+	reactRefresh: string,
+	fixture: string,
+	runtime: string,
+	vendor: string
+}
+
+type CompilationCallback = (error: Error | null, stats: Stats | undefined, outputs: Outputs) => void
 
 const uniqueName = "ReactRefreshLibrary";
-const compileWithReactRefresh = (fixturePath, refreshOptions, callback) => {
+
+const compileWithReactRefresh = (fixturePath: string, refreshOptions: PluginOptions, callback:CompilationCallback) => {
 	let dist = path.join(fixturePath, "dist");
 	rspack(
 		{
@@ -43,6 +54,7 @@ const compileWithReactRefresh = (fixturePath, refreshOptions, callback) => {
 		},
 		(error, stats) => {
 			expect(error).toBeFalsy();
+			assert(stats, "stats is not defined");
 			const statsJson = stats.toJson({ all: true });
 			expect(statsJson.errors).toHaveLength(0);
 			expect(statsJson.warnings).toHaveLength(0);
@@ -84,7 +96,7 @@ describe("react-refresh-rspack-plugin", () => {
 		compileWithReactRefresh(
 			path.join(__dirname, "fixtures/default"),
 			{},
-			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
+			(_, __, {  fixture }) => {
 				expect(fixture).toContain("function $RefreshReg$");
 				done();
 			}
@@ -95,7 +107,7 @@ describe("react-refresh-rspack-plugin", () => {
 		compileWithReactRefresh(
 			path.join(__dirname, "fixtures/default"),
 			{},
-			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
+			(_, __, { reactRefresh }) => {
 				expect(reactRefresh).toContain(uniqueName);
 				done();
 			}
@@ -109,7 +121,7 @@ describe("react-refresh-rspack-plugin", () => {
 				exclude: null,
 				include: path.join(__dirname, "fixtures/node_modules/foo")
 			},
-			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
+			(_, __, { vendor }) => {
 				expect(vendor).toContain("function $RefreshReg$");
 				done();
 			}
@@ -137,6 +149,22 @@ describe("react-refresh-rspack-plugin", () => {
 			},
 			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
 				expect(reactRefresh).not.toContain("function $RefreshReg$");
+				done();
+			}
+		);
+	});
+
+	it("should include entries for webpack-hot-middleware", done => {
+		compileWithReactRefresh(
+			path.join(__dirname, "fixtures/custom"),
+			{
+				overlay: {
+					sockIntegration: 'whm'
+				}
+			},
+			(_, __, { fixture }) => {
+				expect(fixture).toContain("webpack-hot-middleware/client");
+				expect(fixture).toContain("WHMEventSource.js");
 				done();
 			}
 		);

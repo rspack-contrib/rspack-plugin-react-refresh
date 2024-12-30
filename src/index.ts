@@ -2,12 +2,30 @@ import path from 'node:path';
 import { normalizeOptions } from './options';
 import { reactRefreshPath, refreshUtilsPath, runtimePaths } from './paths';
 import { getAdditionalEntries } from './utils/getAdditionalEntries';
-import { getSocketIntegration } from './utils/getSocketIntegration';
+import {
+  type IntegrationType,
+  getSocketIntegration,
+} from './utils/getSocketIntegration';
 
 import type { Compiler } from '@rspack/core';
 import type { NormalizedPluginOptions, PluginOptions } from './options';
+import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
 export type { PluginOptions };
+
+function addEntry(entry: string, compiler: Compiler) {
+  new compiler.webpack.EntryPlugin(compiler.context, entry, {
+    name: undefined,
+  }).apply(compiler);
+}
+
+function addSocketEntry(sockIntegration: IntegrationType, compiler: Compiler) {
+  const integrationEntry = getIntegrationEntry(sockIntegration);
+
+  if (integrationEntry) {
+    addEntry(integrationEntry, compiler);
+  }
+}
 
 class ReactRefreshRspackPlugin {
   options: NormalizedPluginOptions;
@@ -36,15 +54,18 @@ class ReactRefreshRspackPlugin {
     });
 
     for (const entry of addEntries.prependEntries) {
-      new compiler.webpack.EntryPlugin(compiler.context, entry, {
-        name: undefined,
-      }).apply(compiler);
+      addEntry(entry, compiler);
+    }
+
+    if (
+      this.options.overlay !== false &&
+      this.options.overlay.sockIntegration
+    ) {
+      addSocketEntry(this.options.overlay.sockIntegration, compiler);
     }
 
     for (const entry of addEntries.overlayEntries) {
-      new compiler.webpack.EntryPlugin(compiler.context, entry, {
-        name: undefined,
-      }).apply(compiler);
+      addEntry(entry, compiler);
     }
 
     new compiler.webpack.ProvidePlugin({
