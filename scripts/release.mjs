@@ -1,5 +1,6 @@
 import path from 'path';
 import * as url from 'url';
+import { getOtp } from '@continuous-auth/client';
 import { $ } from 'execa';
 import fs from 'fs-extra';
 import { inc } from 'semver';
@@ -38,8 +39,12 @@ fs.writeFileSync(
 // Publish to npm
 console.info(`Publishing to npm with tag ${RELEASE_TAG}`);
 const dryRun = RELEASE_DRY_RUN === 'true' ? ['--dry-run'] : [];
+console.log('Getting OTP code');
+let otp = await getOtp();
+console.log('OTP code get, continuing...');
+
 try {
-  await $`pnpm publish ${dryRun} --tag ${RELEASE_TAG} --no-git-checks --provenance`;
+  await $`pnpm publish ${dryRun} --tag ${RELEASE_TAG} --otp ${otp} --no-git-checks --provenance`;
   console.info(`Published successfully`);
 } catch (e) {
   console.error(`Publish failed: ${e.message}`);

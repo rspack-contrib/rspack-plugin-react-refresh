@@ -57,7 +57,8 @@
   },
   "dependencies": {
     "error-stack-parser": "^2.1.4",
-    "html-entities": "^2.5.2"
+    "html-entities": "^2.5.2",
+    "@continuous-auth/client": "2.3.2"
   },
   "peerDependencies": {
     "react-refresh": ">=0.10.0 <1.0.0",
