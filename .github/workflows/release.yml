@@ -96,5 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{ steps.github_creds.outputs.token }}
           GITHUB_OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          CFA_PROJECT_ID: ${{ secrets.CFA_PROJECT_ID }}
+          CFA_SECRET: ${{ secrets.CFA_SECRET }}
 
   
