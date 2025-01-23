@@ -93,6 +93,7 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run }}
           TAG: ${{ inputs.tag }}
           VERSION: ${{ inputs.version }}
+          CFA_HOST: https://cfa.rspack.dev
           GITHUB_TOKEN: ${{ steps.github_creds.outputs.token }}
           GITHUB_OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
