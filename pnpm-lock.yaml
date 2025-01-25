@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@continuous-auth/client':
-        specifier: 2.3.2
-        version: 2.3.2
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4
@@ -24,6 +21,9 @@ importers:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
+      '@continuous-auth/client':
+        specifier: 2.3.2
+        version: 2.3.2
       '@rspack/core':
         specifier: 1.1.4
         version: 1.1.4
