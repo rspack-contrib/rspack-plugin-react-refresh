@@ -43,6 +43,12 @@ export type PluginOptions = {
    * @default false
    */
   overlay?: boolean | Partial<OverlayOptions>;
+
+  /**
+   * Whether to inject the builtin:react-refresh-loader
+   * @default true
+   */
+  injectLoader?: boolean;
 };
 
 export interface NormalizedPluginOptions extends Required<PluginOptions> {
@@ -90,6 +96,7 @@ export function normalizeOptions(
   d(options, 'include', /\.([cm]js|[jt]sx?|flow)$/i);
   d(options, 'library');
   d(options, 'forceEnable', false);
+  d(options, 'injectLoader', true);
   options.overlay = normalizeOverlay(options.overlay);
   return options as NormalizedPluginOptions;
 }
