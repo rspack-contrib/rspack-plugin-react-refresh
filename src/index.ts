@@ -12,6 +12,7 @@ import type { NormalizedPluginOptions, PluginOptions } from './options';
 import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
 export type { PluginOptions };
+export const loader = 'builtin:react-refresh-loader';
 
 function addEntry(entry: string, compiler: Compiler) {
   new compiler.webpack.EntryPlugin(compiler.context, entry, {
@@ -72,15 +73,17 @@ class ReactRefreshRspackPlugin {
       $ReactRefreshRuntime$: reactRefreshPath,
     }).apply(compiler);
 
-    compiler.options.module.rules.unshift({
-      // biome-ignore lint: exists
-      include: this.options.include!,
-      exclude: {
+    if (this.options.injectLoader) {
+      compiler.options.module.rules.unshift({
         // biome-ignore lint: exists
-        or: [this.options.exclude!, [...runtimePaths]].filter(Boolean),
-      },
-      use: 'builtin:react-refresh-loader',
-    });
+        include: this.options.include!,
+        exclude: {
+          // biome-ignore lint: exists
+          or: [this.options.exclude!, [...runtimePaths]].filter(Boolean),
+        },
+        use: loader,
+      });
+    }
 
     const definedModules: Record<string, string | boolean> = {
       // For Multiple Instance Mode
