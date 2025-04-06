@@ -12,7 +12,6 @@ import type { NormalizedPluginOptions, PluginOptions } from './options';
 import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
 export type { PluginOptions };
-export const loader = 'builtin:react-refresh-loader';
 
 function addEntry(entry: string, compiler: Compiler) {
   new compiler.webpack.EntryPlugin(compiler.context, entry, {
@@ -31,7 +30,8 @@ function addSocketEntry(sockIntegration: IntegrationType, compiler: Compiler) {
 class ReactRefreshRspackPlugin {
   options: NormalizedPluginOptions;
 
-  static deprecated_runtimePaths: string[];
+  static deprecated_runtimePaths = runtimePaths;
+  static loader = 'builtin:react-refresh-loader';
 
   constructor(options: PluginOptions = {}) {
     this.options = normalizeOptions(options);
@@ -81,7 +81,7 @@ class ReactRefreshRspackPlugin {
           // biome-ignore lint: exists
           or: [this.options.exclude!, [...runtimePaths]].filter(Boolean),
         },
-        use: loader,
+        use: ReactRefreshRspackPlugin.loader,
       });
     }
 
@@ -125,8 +125,6 @@ class ReactRefreshRspackPlugin {
     };
   }
 }
-
-ReactRefreshRspackPlugin.deprecated_runtimePaths = runtimePaths;
 
 // @ts-expect-error output module.exports
 export = ReactRefreshRspackPlugin;
