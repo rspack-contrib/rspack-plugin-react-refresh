@@ -2,7 +2,7 @@ import assert from "node:assert"
 import fs from "node:fs"
 import path from "node:path"
 import { type Stats, rspack } from "@rspack/core"
-import ReactRefreshPlugin, { type PluginOptions} from "@rspack/plugin-react-refresh"
+import ReactRefreshPlugin, { type PluginOptions } from "@rspack/plugin-react-refresh"
 
 type Outputs = {
 	reactRefresh: string,
@@ -133,6 +133,20 @@ describe("react-refresh-rspack-plugin", () => {
 			path.join(__dirname, "fixtures/custom"),
 			{
 				exclude: path.join(__dirname, "fixtures/custom/index.js")
+			},
+			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
+				expect(fixture).not.toContain("function $RefreshReg$");
+				done();
+			}
+		);
+	});
+
+	it("should allow custom inject loader when compiling", done => {
+		expect(ReactRefreshPlugin.loader).toBe("builtin:react-refresh-loader");
+		compileWithReactRefresh(
+			path.join(__dirname, "fixtures/custom"),
+			{
+				injectLoader: false,
 			},
 			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
 				expect(fixture).not.toContain("function $RefreshReg$");
