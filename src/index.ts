@@ -54,8 +54,10 @@ class ReactRefreshRspackPlugin {
       options: this.options,
     });
 
-    for (const entry of addEntries.prependEntries) {
-      addEntry(entry, compiler);
+    if (this.options.injectEntry) {
+      for (const entry of addEntries.prependEntries) {
+        addEntry(entry, compiler);
+      }
     }
 
     if (
