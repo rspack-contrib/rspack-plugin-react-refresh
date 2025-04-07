@@ -15,7 +15,7 @@ type CompilationCallback = (error: Error | null, stats: Stats | undefined, outpu
 
 const uniqueName = "ReactRefreshLibrary";
 
-const compileWithReactRefresh = (fixturePath: string, refreshOptions: PluginOptions, callback:CompilationCallback) => {
+const compileWithReactRefresh = (fixturePath: string, refreshOptions: PluginOptions, callback: CompilationCallback) => {
 	let dist = path.join(fixturePath, "dist");
 	rspack(
 		{
@@ -150,6 +150,19 @@ describe("react-refresh-rspack-plugin", () => {
 			},
 			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
 				expect(fixture).not.toContain("function $RefreshReg$");
+				done();
+			}
+		);
+	});
+
+	it("should allow custom inject entry when compiling", done => {
+		compileWithReactRefresh(
+			path.join(__dirname, "fixtures/custom"),
+			{
+				injectEntry: false,
+			},
+			(_, __, { reactRefresh, fixture, runtime, vendor }) => {
+				expect(reactRefresh).not.toContain("RefreshRuntime.injectIntoGlobalHook(safeThis)");
 				done();
 			}
 		);

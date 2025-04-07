@@ -49,6 +49,12 @@ export type PluginOptions = {
    * @default true
    */
   injectLoader?: boolean;
+
+  /**
+   * Whether to inject the client/reactRefreshEntry.js
+   * @default true
+   */
+  injectEntry?: boolean;
 };
 
 export interface NormalizedPluginOptions extends Required<PluginOptions> {
@@ -97,6 +103,7 @@ export function normalizeOptions(
   d(options, 'library');
   d(options, 'forceEnable', false);
   d(options, 'injectLoader', true);
+  d(options, 'injectEntry', true);
   options.overlay = normalizeOverlay(options.overlay);
   return options as NormalizedPluginOptions;
 }
