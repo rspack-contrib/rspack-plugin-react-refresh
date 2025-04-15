@@ -7,7 +7,7 @@ import {
   getSocketIntegration,
 } from './utils/getSocketIntegration';
 
-import type { Compiler } from '@rspack/core';
+import { type Compiler, RuntimeGlobals } from '@rspack/core';
 import type { NormalizedPluginOptions, PluginOptions } from './options';
 import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
@@ -26,6 +26,8 @@ function addSocketEntry(sockIntegration: IntegrationType, compiler: Compiler) {
     addEntry(integrationEntry, compiler);
   }
 }
+
+const PLUGIN_NAME = 'ReactRefreshRspackPlugin';
 
 class ReactRefreshRspackPlugin {
   options: NormalizedPluginOptions;
@@ -49,6 +51,7 @@ class ReactRefreshRspackPlugin {
     ) {
       return;
     }
+
     const addEntries = getAdditionalEntries({
       devServer: compiler.options.devServer,
       options: this.options,
@@ -125,6 +128,15 @@ class ReactRefreshRspackPlugin {
       'react-refresh': refreshPath,
       ...compiler.options.resolve.alias,
     };
+
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.additionalTreeRuntimeRequirements.tap(
+        PLUGIN_NAME,
+        (_, runtimeRequirements) => {
+          runtimeRequirements.add(RuntimeGlobals.moduleCache);
+        },
+      );
+    });
   }
 }
 
