@@ -7,7 +7,7 @@ import {
   getSocketIntegration,
 } from './utils/getSocketIntegration';
 
-import { type Compiler, RuntimeGlobals } from '@rspack/core';
+import type { Compiler } from '@rspack/core';
 import type { NormalizedPluginOptions, PluginOptions } from './options';
 import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
@@ -133,7 +133,7 @@ class ReactRefreshRspackPlugin {
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
         PLUGIN_NAME,
         (_, runtimeRequirements) => {
-          runtimeRequirements.add(RuntimeGlobals.moduleCache);
+          runtimeRequirements.add(compiler.rspack.RuntimeGlobals.moduleCache);
         },
       );
     });
