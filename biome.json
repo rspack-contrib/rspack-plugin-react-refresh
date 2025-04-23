@@ -10,8 +10,7 @@
     "useIgnoreFile": true
   },
   "formatter": {
-    "indentStyle": "space",
-    "ignore": ["./test/**/*"]
+    "indentStyle": "space"
   },
   "javascript": {
     "formatter": {

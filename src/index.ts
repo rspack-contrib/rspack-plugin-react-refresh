@@ -140,5 +140,5 @@ class ReactRefreshRspackPlugin {
   }
 }
 
-// @ts-expect-error output module.exports
-export = ReactRefreshRspackPlugin;
+export { ReactRefreshRspackPlugin };
+export default ReactRefreshRspackPlugin;

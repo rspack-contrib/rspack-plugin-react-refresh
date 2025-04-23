@@ -3,12 +3,14 @@
   "version": "1.3.1",
   "repository": "https://github.com/rspack-contrib/rspack-plugin-react-refresh",
   "license": "MIT",
-  "description": "React refresh plugin for rspack",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "React refresh plugin for Rspack",
+  "main": "exports/index.cjs",
+  "type": "commonjs",
+  "types": "exports/index.d.cts",
   "exports": {
     ".": {
-      "default": "./dist/index.js"
+      "require": "./exports/index.cjs",
+      "default": "./exports/index.mjs"
     },
     "./react-refresh": "./client/reactRefresh.js",
     "./react-refresh-entry": "./client/reactRefreshEntry.js",
@@ -24,10 +26,7 @@
     "test": "jest --colors",
     "release": "node ./scripts/release.mjs"
   },
-  "files": [
-    "client",
-    "dist"
-  ],
+  "files": ["client", "dist", "exports"],
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"
   },
@@ -38,6 +37,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@continuous-auth/client": "2.3.2",
+    "@rslib/core": "^0.6.7",
     "@rspack/core": "1.3.1",
     "@types/jest": "29.5.14",
     "@types/node": "^22.13.17",
@@ -53,8 +54,7 @@
     "simple-git-hooks": "^2.12.1",
     "ts-jest": "29.3.1",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.2",
-    "@continuous-auth/client": "2.3.2"
+    "typescript": "5.8.2"
   },
   "dependencies": {
     "error-stack-parser": "^2.1.4",

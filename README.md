@@ -27,6 +27,26 @@ pnpm add @rspack/plugin-react-refresh react-refresh -D
 bun add @rspack/plugin-react-refresh react-refresh -D
 ```
 
+## Import the plugin
+
+Import the plugin in your code:
+
+- ES modules:
+
+```js
+// Named import (recommended)
+import { ReactRefreshRspackPlugin } from "@rspack/plugin-react-refresh";
+
+// Default import
+import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
+```
+
+- CommonJS:
+
+```js
+const ReactRefreshRspackPlugin = require("@rspack/plugin-react-refresh");
+```
+
 ## Usage
 
 Enabling [React Fast Refresh](https://reactnative.dev/docs/fast-refresh) functionality primarily involves two aspects: code injection and code transformation.
