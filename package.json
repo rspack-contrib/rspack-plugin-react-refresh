@@ -6,10 +6,9 @@
   "description": "React refresh plugin for Rspack",
   "main": "exports/index.cjs",
   "type": "commonjs",
-  "types": "dist/index.d.ts",
+  "types": "exports/index.d.cts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "require": "./exports/index.cjs",
       "default": "./exports/index.mjs"
     },
