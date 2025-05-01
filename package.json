@@ -42,10 +42,10 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@continuous-auth/client": "2.3.2",
-    "@rslib/core": "^0.6.7",
-    "@rspack/core": "1.3.1",
+    "@rslib/core": "^0.6.8",
+    "@rspack/core": "1.3.8",
     "@types/jest": "29.5.14",
-    "@types/node": "^22.13.17",
+    "@types/node": "^22.15.3",
     "cross-env": "^7.0.3",
     "execa": "9.5.2",
     "fs-extra": "11.3.0",
@@ -55,10 +55,10 @@
     "nano-staged": "^0.8.0",
     "react-refresh": "^0.17.0",
     "semver": "7.7.1",
-    "simple-git-hooks": "^2.12.1",
-    "ts-jest": "29.3.1",
+    "simple-git-hooks": "^2.13.0",
+    "ts-jest": "29.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "error-stack-parser": "^2.1.4",
@@ -73,7 +73,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.10.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
