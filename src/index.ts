@@ -86,6 +86,7 @@ class ReactRefreshRspackPlugin {
           // biome-ignore lint: exists
           or: [this.options.exclude!, [...runtimePaths]].filter(Boolean),
         },
+        resourceQuery: this.options.resourceQuery,
         use: ReactRefreshRspackPlugin.loader,
       });
     }
