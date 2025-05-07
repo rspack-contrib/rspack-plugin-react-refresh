@@ -108,7 +108,7 @@ Compared to the previous approach, this method decouples the React Fast Refresh 
 - Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
 - Default: `/\.([cm]js|[jt]sx?|flow)$/i`
 
-Include files to be processed by the plugin. The value is the same as the `rule.test` option in Rspack.
+Include files to be processed by the plugin. The value is the same as the [rule.test](https://rspack.dev/config/module#ruletest) option in Rspack.
 
 ```js
 new ReactRefreshPlugin({
@@ -121,11 +121,26 @@ new ReactRefreshPlugin({
 - Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
 - Default: `/node_modules/`
 
-Exclude files from being processed by the plugin. The value is the same as the `rule.exclude` option in Rspack.
+Exclude files from being processed by the plugin. The value is the same as the [rule.exclude](https://rspack.dev/config/module#ruleexclude) option in Rspack.
 
 ```js
 new ReactRefreshPlugin({
   exclude: [/node_modules/, /some-other-module/],
+});
+```
+
+### resourceQuery
+
+- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Default: `undefined`
+
+Can be used to exclude certain resources from being processed by the plugin by the resource query. The value is the same as the [rule.resourceQuery](https://rspack.dev/config/module#ruleresourcequery) option in Rspack.
+
+For example, to exclude all resources with the `raw` query, such as `import rawTs from './ReactComponent.ts?raw';`, use the following:
+
+```js
+new ReactRefreshPlugin({
+  resourceQuery: { not: /raw/ },
 });
 ```
 

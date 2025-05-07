@@ -16,14 +16,29 @@ export type PluginOptions = {
    * Include files to be processed by the plugin.
    * The value is the same as the `rule.test` option in Rspack.
    * @default /\.([cm]js|[jt]sx?|flow)$/i
+   * @see https://rspack.dev/config/module#ruletest
    */
   include?: RuleSetCondition | null;
   /**
    * Exclude files from being processed by the plugin.
    * The value is the same as the `rule.exclude` option in Rspack.
    * @default /node_modules/
+   * @see https://rspack.dev/config/module#ruleexclude
    */
   exclude?: RuleSetCondition | null;
+  /**
+   * Can be used to exclude certain resources from being processed by
+   * the plugin by the resource query.
+   * @see https://rspack.dev/config/module#ruleresourcequery
+   *
+   * @example
+   * To exclude all resources with the `raw` query, such as
+   * `import rawTs from './ReactComponent.ts?raw';`, use the following:
+   * ```ts
+   * { resourceQuery: { not: /raw/ } }
+   * ```
+   */
+  resourceQuery?: RuleSetCondition;
   /**
    * Sets a namespace for the React Refresh runtime.
    * It is most useful when multiple instances of React Refresh is running
