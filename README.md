@@ -37,8 +37,6 @@ Import the plugin in your code:
 // Named import (recommended)
 import { ReactRefreshRspackPlugin } from "@rspack/plugin-react-refresh";
 
-// Default import
-import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
 ```
 
 - CommonJS:
