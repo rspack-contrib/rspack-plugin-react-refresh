@@ -27,16 +27,20 @@ const compileWithReactRefresh = (
   callback: CompilationCallback,
 ) => {
   let dist = path.join(fixturePath, 'dist');
+  let cjsEntry = path.join(fixturePath, 'index.js');
+  let mjsEntry = path.join(fixturePath, 'index.mjs');
+  let entry = fs.existsSync(cjsEntry) ? cjsEntry : mjsEntry;
   rspack(
     {
       mode: 'development',
       context: fixturePath,
       entry: {
-        fixture: path.join(fixturePath, 'index.js'),
+        fixture: entry,
       },
       output: {
         path: dist,
         uniqueName,
+        assetModuleFilename: '[name][ext]',
       },
       plugins: [new ReactRefreshPlugin(refreshOptions)],
       optimization: {
@@ -159,6 +163,22 @@ describe('react-refresh-rspack-plugin', () => {
       },
       (_, __, { vendor }) => {
         expect(vendor).not.toContain('function $RefreshReg$');
+        done();
+      },
+    );
+  });
+
+  it('should exclude url dependency when compiling', (done) => {
+    compileWithReactRefresh(
+      path.join(__dirname, 'fixtures/url'),
+      {},
+      (_, stats) => {
+        const json = stats!.toJson({ all: false, outputPath: true });
+        const asset = fs.readFileSync(
+          path.resolve(json.outputPath!, 'sdk.js'),
+          'utf-8',
+        );
+        expect(asset).not.toContain('function $RefreshReg$');
         done();
       },
     );
