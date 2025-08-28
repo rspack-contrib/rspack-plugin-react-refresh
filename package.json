@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@continuous-auth/client": "2.3.2",
     "@rslib/core": "^0.11.0",
     "@rspack/core": "1.4.11",
     "@types/jest": "29.5.14",
