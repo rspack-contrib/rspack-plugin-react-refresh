@@ -128,6 +128,21 @@ describe('react-refresh-rspack-plugin', () => {
     );
   });
 
+  it('should test selected file when compiling', (done) => {
+    compileWithReactRefresh(
+      path.join(__dirname, 'fixtures/custom'),
+      {
+        exclude: null,
+        test: path.join(__dirname, 'fixtures/node_modules/foo'),
+        include: null,
+      },
+      (_, __, { vendor }) => {
+        expect(vendor).toContain('function $RefreshReg$');
+        done();
+      },
+    );
+  });
+
   it('should include selected file when compiling', (done) => {
     compileWithReactRefresh(
       path.join(__dirname, 'fixtures/custom'),
