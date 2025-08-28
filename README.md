@@ -36,7 +36,6 @@ Import the plugin in your code:
 ```js
 // Named import (recommended)
 import { ReactRefreshRspackPlugin } from "@rspack/plugin-react-refresh";
-
 ```
 
 - CommonJS:
@@ -101,12 +100,31 @@ Compared to the previous approach, this method decouples the React Fast Refresh 
 
 ## Options
 
+### test
+
+- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Default: `undefined`
+
+Specifies which files should be processed by the React Refresh loader. This option is passed to the `builtin:react-refresh-loader` as the `rule.test` condition.
+
+Works identically to Rspack's [rule.test](https://rspack.dev/config/module#ruletest) option.
+
+```js
+new ReactRefreshPlugin({
+  test: [/\.jsx$/, /\.tsx$/],
+});
+```
+
 ### include
 
 - Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
 - Default: `/\.([cm]js|[jt]sx?|flow)$/i`
 
-Include files to be processed by the plugin. The value is the same as the [rule.test](https://rspack.dev/config/module#ruletest) option in Rspack.
+Explicitly includes files to be processed by the React Refresh loader. This option is passed to the `builtin:react-refresh-loader` as the `rule.include` condition.
+
+Use this to limit processing to specific directories or file patterns.
+
+Works identically to Rspack's [rule.include](https://rspack.dev/config/module#ruleinclude) option.
 
 ```js
 new ReactRefreshPlugin({
