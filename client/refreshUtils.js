@@ -245,6 +245,8 @@ function executeRuntime(
          * @returns {void}
          */
         function hotErrorHandler(error) {
+          console.error(error);
+
           if (typeof refreshOverlay !== 'undefined' && refreshOverlay) {
             refreshOverlay.handleRuntimeError(error);
           }
