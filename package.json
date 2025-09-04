@@ -26,11 +26,7 @@
     "test": "jest --colors",
     "release": "node ./scripts/release.mjs"
   },
-  "files": [
-    "client",
-    "dist",
-    "exports"
-  ],
+  "files": ["client", "dist", "exports"],
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"
   },

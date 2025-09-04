@@ -1,4 +1,4 @@
-import { ReactRefreshRspackPlugin, type PluginOptions } from '../dist/index.js';
+import { type PluginOptions, ReactRefreshRspackPlugin } from '../dist/index.js';
 
 export type { PluginOptions };
 export { ReactRefreshRspackPlugin };

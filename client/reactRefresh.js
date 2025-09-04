@@ -14,7 +14,13 @@ function refresh(moduleId, webpackHot) {
     if (typeof __react_refresh_test__ !== 'undefined') {
       testMode = __react_refresh_test__;
     }
-    RefreshUtils.executeRuntime(exports, moduleId, webpackHot, errorOverlay, testMode);
+    RefreshUtils.executeRuntime(
+      exports,
+      moduleId,
+      webpackHot,
+      errorOverlay,
+      testMode,
+    );
   };
   if (typeof Promise !== 'undefined' && currentExports instanceof Promise) {
     currentExports.then(fn);
