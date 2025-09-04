@@ -106,6 +106,7 @@ class ReactRefreshRspackPlugin {
             compiler.options.output.library,
         ),
       ),
+      __reload_on_runtime_errors__: this.options.reloadOnRuntimeErrors,
     };
     const providedModules: Record<string, string> = {
       __react_refresh_utils__: refreshUtilsPath,

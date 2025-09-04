@@ -209,6 +209,7 @@ function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
 }
 
 var enqueueUpdate = createDebounceUpdate();
+
 function executeRuntime(
   moduleExports,
   moduleId,
@@ -245,8 +246,18 @@ function executeRuntime(
          * @returns {void}
          */
         function hotErrorHandler(error) {
+          if (
+            __reload_on_runtime_errors__ &&
+            isUnrecoverableRuntimeError(error)
+          ) {
+            location.reload();
+          }
+
           if (typeof refreshOverlay !== 'undefined' && refreshOverlay) {
             refreshOverlay.handleRuntimeError(error);
+          } else {
+            console.log('can afford it keep throw up');
+            // throw error;
           }
 
           if (typeof isTest !== 'undefined' && isTest) {
@@ -285,6 +296,10 @@ function executeRuntime(
       }
     }
   }
+}
+
+function isUnrecoverableRuntimeError(error) {
+  return error.message.startsWith('RuntimeError: factory is undefined');
 }
 
 module.exports = Object.freeze({
