@@ -1,2 +1,2 @@
-require("foo");
-module.exports = "default";
+require('foo');
+module.exports = 'default';
