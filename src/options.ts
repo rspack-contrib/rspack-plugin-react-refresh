@@ -79,6 +79,11 @@ export type PluginOptions = {
    * @default true
    */
   injectEntry?: boolean;
+  /**
+   * Whether to reload the page on runtime errors. E.g: undefined module factory
+   * @default false
+   */
+  reloadOnRuntimeErrors?: boolean;
 };
 
 export interface NormalizedPluginOptions extends Required<PluginOptions> {
@@ -128,6 +133,7 @@ export function normalizeOptions(
   d(options, 'forceEnable', false);
   d(options, 'injectLoader', true);
   d(options, 'injectEntry', true);
+  d(options, 'reloadOnRuntimeErrors', false);
   options.overlay = normalizeOverlay(options.overlay);
   return options as NormalizedPluginOptions;
 }
