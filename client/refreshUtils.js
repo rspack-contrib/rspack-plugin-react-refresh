@@ -246,6 +246,7 @@ function executeRuntime(
          * @returns {void}
          */
         function hotErrorHandler(error) {
+          console.error(error);
           if (
             __reload_on_runtime_errors__ &&
             isUnrecoverableRuntimeError(error)
