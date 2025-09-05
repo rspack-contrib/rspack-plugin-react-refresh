@@ -217,6 +217,21 @@ new ReactRefreshPlugin({
 });
 ```
 
+### reloadOnRuntimeErrors
+
+- Type: `boolean`
+- Default: `false`
+
+Config the plugin whether trigger a full page reload when an unrecoverable runtime error is encountered.
+
+Currently, only module factory undefined error is considered as unrecoverable runtime error.
+
+```js
+new ReactRefreshPlugin({
+  reloadOnRuntimeErrors: true,
+});
+```
+
 ## Credits
 
 Thanks to the [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) created by [@pmmmwh](https://github.com/pmmmwh), which inspires implement this plugin.
