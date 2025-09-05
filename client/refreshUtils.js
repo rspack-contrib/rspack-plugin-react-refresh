@@ -255,9 +255,6 @@ function executeRuntime(
 
           if (typeof refreshOverlay !== 'undefined' && refreshOverlay) {
             refreshOverlay.handleRuntimeError(error);
-          } else {
-            console.log('can afford it keep throw up');
-            // throw error;
           }
 
           if (typeof isTest !== 'undefined' && isTest) {
