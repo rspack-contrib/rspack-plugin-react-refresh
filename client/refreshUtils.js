@@ -252,6 +252,7 @@ function executeRuntime(
             isUnrecoverableRuntimeError(error)
           ) {
             location.reload();
+            return;
           }
 
           if (typeof refreshOverlay !== 'undefined' && refreshOverlay) {
