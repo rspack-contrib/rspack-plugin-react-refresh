@@ -23,7 +23,7 @@ const publishVersion = pkg.version;
 
 const parsed = cli.parse();
 const npmTag = parsed.options.tag;
-const isDryRun = parsed.options.dryRun;
+const isDryRun = parsed.options.dryRun === 'true';
 
 const allowedTags = ['latest', 'canary', 'alpha', 'beta', 'rc', 'nightly'];
 if (!allowedTags.includes(npmTag)) {
