@@ -25,14 +25,14 @@ const parsed = cli.parse();
 const npmTag = parsed.options.tag;
 const isDryRun = parsed.options.dryRun;
 
-const allowedTags = ['latest', 'canary', 'alpha', 'beta', 'rc'];
+const allowedTags = ['latest', 'canary', 'alpha', 'beta', 'rc', 'nightly'];
 if (!allowedTags.includes(npmTag)) {
   throw new Error(
     `Invalid npm tag: ${npmTag}. Allowed tags: ${allowedTags.join(', ')}`,
   );
 }
 
-const prereleaseTags = ['alpha', 'beta', 'rc', 'canary'];
+const prereleaseTags = ['alpha', 'beta', 'rc', 'canary', 'nightly'];
 if (
   npmTag === 'latest' &&
   prereleaseTags.some((tag) => publishVersion.includes(tag))
@@ -40,7 +40,9 @@ if (
   throw Error(`Can't release ${publishVersion} to latest tag`);
 }
 
-console.info(`Release ${npmTag} version ${publishVersion}`);
+console.info(
+  `Release ${npmTag} version ${publishVersion}${isDryRun ? '(dry-run)' : ''}`,
+);
 
 try {
   const flags = isDryRun

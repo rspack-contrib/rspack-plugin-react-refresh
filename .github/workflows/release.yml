@@ -7,7 +7,7 @@ on:
         type: choice
         description: "Release Npm Tag"
         required: true
-        default: "latest"
+        default: "nightly"
         options:
           - canary
           - nightly
@@ -58,9 +58,9 @@ jobs:
         run: pnpm run test
 
       - name: Dry run release to npm
-        if: inputs.dry_run == 'true'
-        run: node scripts/release.js --dry-run --tag ${{ github.event.inputs.tag }}
+        if: inputs.dry_run
+        run: node scripts/release.mjs --dry-run --tag ${{ inputs.tag }}
 
-      - name: Dry run release to npm
-        if: inputs.dry_run == 'false'
-        run: node scripts/release.js --tag ${{ github.event.inputs.tag }}
+      - name: Release to npm
+        if: ${{ !inputs.dry_run }}
+        run: node scripts/release.mjs --tag ${{ inputs.tag }}
