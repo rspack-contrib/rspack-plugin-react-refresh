@@ -1,47 +1,64 @@
 import path from 'path';
 import * as url from 'url';
+import cac from 'cac';
 import { $ } from 'execa';
 import fs from 'fs-extra';
-import { inc } from 'semver';
 
-const RELEASE_TAG = process.env.TAG || 'beta';
-const RELEASE_DRY_RUN = process.env.DRY_RUN || 'true';
-const RELEASE_VERSION_TYPE = process.env.VERSION || 'prerelease';
+let cli = cac('release');
+cli.option(
+  '--dry-run <run>',
+  'Perform a dry run without publishing or pushing tags',
+  {
+    default: 'false',
+  },
+);
+cli.option('--tag <tag>', 'The npm tag to publish under (default: canary)', {
+  default: 'canary',
+});
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const PKG_PATH = path.resolve(__dirname, '../package.json');
 const pkg = fs.readJsonSync(PKG_PATH);
-const currentVersion = pkg.version;
-const nextVersion = inc(currentVersion, RELEASE_VERSION_TYPE);
-if (!nextVersion) {
+const publishVersion = pkg.version;
+
+const parsed = cli.parse();
+const npmTag = parsed.options.tag;
+const isDryRun = parsed.options.dryRun;
+
+const allowedTags = ['latest', 'canary', 'alpha', 'beta', 'rc', 'nightly'];
+if (!allowedTags.includes(npmTag)) {
   throw new Error(
-    `Failed to generate next version from "${currentVersion}" with type "${RELEASE_VERSION_TYPE}"`,
+    `Invalid npm tag: ${npmTag}. Allowed tags: ${allowedTags.join(', ')}`,
   );
 }
 
-console.info(`Release ${RELEASE_TAG} version ${nextVersion}`);
+const prereleaseTags = ['alpha', 'beta', 'rc', 'canary', 'nightly'];
+if (
+  npmTag === 'latest' &&
+  prereleaseTags.some((tag) => publishVersion.includes(tag))
+) {
+  throw Error(`Can't release ${publishVersion} to latest tag`);
+}
 
-// Update pkg version
-console.info(`Updating version from ${currentVersion} to ${nextVersion}`);
-pkg.version = nextVersion;
-fs.writeJsonSync(PKG_PATH, pkg, { spaces: 2 });
-
-// Publish to npm
-console.info(`Publishing to npm with tag ${RELEASE_TAG}`);
-const dryRun = RELEASE_DRY_RUN === 'true' ? ['--dry-run'] : [];
+console.info(
+  `Release ${npmTag} version ${publishVersion}${isDryRun ? '(dry-run)' : ''}`,
+);
 
 try {
-  await $`pnpm publish ${dryRun} --tag ${RELEASE_TAG} --no-git-checks`;
+  const flags = isDryRun
+    ? ['--dry-run', `--tag`, npmTag, `--no-git-checks`]
+    : [`--tag`, npmTag, `--no-git-checks`];
+  await $`pnpm publish ${flags}`;
   console.info(`Published successfully`);
 } catch (e) {
   console.error(`Publish failed: ${e.message}`);
   process.exit(1);
 }
 
-// Push tag to github
-if (RELEASE_DRY_RUN !== 'true') {
+// Push tag to GitHub
+if (!isDryRun) {
   console.info(`Pushing tag to github`);
-  const tagName = `v${nextVersion}`;
+  const tagName = `v${publishVersion}`;
   try {
     await $`git config --global --add safe.directory /github/workspace`;
     await $`git config --global user.name "github-actions[bot]"`;
@@ -52,17 +69,6 @@ if (RELEASE_DRY_RUN !== 'true') {
     console.info(`Pushed tag successfully`);
   } catch (e) {
     console.error(`Push tag failed: ${e.message}`);
-    process.exit(1);
-  }
-
-  try {
-    await $`git add --all`;
-    const commitMsg = `release ${tagName}`;
-    await $`git commit -m ${commitMsg}`;
-    await $`git push`;
-    console.info(`Pushed branch successfully`);
-  } catch (e) {
-    console.error(`Update branch failed: ${e.message}`);
     process.exit(1);
   }
 }
