@@ -9,11 +9,12 @@ on:
         required: true
         default: "nightly"
         options:
-          - canary
-          - nightly
-          - latest
-          - beta
           - alpha
+          - beta
+          - canary
+          - latest
+          - nightly
+          - rc
 
       dry_run:
         type: boolean
