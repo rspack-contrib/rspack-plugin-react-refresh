@@ -1,6 +1,10 @@
-import path from 'node:path';
 import { normalizeOptions } from './options';
-import { reactRefreshPath, refreshUtilsPath, runtimePaths } from './paths';
+import {
+  reactRefreshPath,
+  refreshRuntimeDirPath,
+  refreshUtilsPath,
+  runtimePaths,
+} from './paths';
 import { getAdditionalEntries } from './utils/getAdditionalEntries';
 import {
   type IntegrationType,
@@ -131,9 +135,8 @@ class ReactRefreshRspackPlugin {
     new compiler.webpack.DefinePlugin(definedModules).apply(compiler);
     new compiler.webpack.ProvidePlugin(providedModules).apply(compiler);
 
-    const refreshPath = path.dirname(require.resolve('react-refresh'));
     compiler.options.resolve.alias = {
-      'react-refresh': refreshPath,
+      'react-refresh': refreshRuntimeDirPath,
       ...compiler.options.resolve.alias,
     };
 
