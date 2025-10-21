@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { RuleSetCondition } from '@rspack/core';
 import type { IntegrationType } from './utils/getSocketIntegration';
 
@@ -107,8 +108,8 @@ const d = <K extends keyof PluginOptions>(
 
 const normalizeOverlay = (options: PluginOptions['overlay']) => {
   const defaultOverlay: OverlayOptions = {
-    entry: require.resolve('../client/errorOverlayEntry.js'),
-    module: require.resolve('../client/overlay/index.js'),
+    entry: path.join(__dirname, '../client/errorOverlayEntry.js'),
+    module: path.join(__dirname, '../client/overlay/index.js'),
     sockIntegration: 'wds',
   };
   if (!options) {
