@@ -17,7 +17,7 @@ import {
 export type { PluginOptions };
 
 function addEntry(entry: string, compiler: Compiler) {
-  new compiler.webpack.EntryPlugin(compiler.context, entry, {
+  new compiler.rspack.EntryPlugin(compiler.context, entry, {
     name: undefined,
   }).apply(compiler);
 }
@@ -83,7 +83,7 @@ class ReactRefreshRspackPlugin {
       addEntry(entry, compiler);
     }
 
-    new compiler.webpack.ProvidePlugin({
+    new compiler.rspack.ProvidePlugin({
       $ReactRefreshRuntime$: reactRefreshPath,
     }).apply(compiler);
 
@@ -111,7 +111,7 @@ class ReactRefreshRspackPlugin {
     const definedModules: Record<string, string | boolean> = {
       // For Multiple Instance Mode
       __react_refresh_library__: JSON.stringify(
-        compiler.webpack.Template.toIdentifier(
+        compiler.rspack.Template.toIdentifier(
           this.options.library ||
             compiler.options.output.uniqueName ||
             compiler.options.output.library,
@@ -139,8 +139,8 @@ class ReactRefreshRspackPlugin {
         );
       }
     }
-    new compiler.webpack.DefinePlugin(definedModules).apply(compiler);
-    new compiler.webpack.ProvidePlugin(providedModules).apply(compiler);
+    new compiler.rspack.DefinePlugin(definedModules).apply(compiler);
+    new compiler.rspack.ProvidePlugin(providedModules).apply(compiler);
 
     compiler.options.resolve.alias = {
       'react-refresh': getRefreshRuntimeDirPath(),
