@@ -19,7 +19,7 @@ export default defineConfig({
         },
         tsconfigPath: './tsconfig.build.json',
       },
-      outBase: './src'
+      outBase: './src',
     },
   ],
 });
