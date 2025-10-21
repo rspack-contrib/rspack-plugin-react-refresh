@@ -12,14 +12,23 @@ export const refreshUtilsPath = path.join(
   __dirname,
   '../client/refreshUtils.js',
 );
-export const refreshRuntimeDirPath = path.dirname(
-  require.resolve('react-refresh', {
-    paths: [reactRefreshPath],
-  }),
-);
-export const runtimePaths = [
+
+let refreshRuntimeDirPath: string;
+
+export function getRefreshRuntimeDirPath() {
+  if (!refreshRuntimeDirPath) {
+    refreshRuntimeDirPath = path.dirname(
+      require.resolve('react-refresh', {
+        paths: [reactRefreshPath],
+      }),
+    );
+  }
+  return refreshRuntimeDirPath;
+}
+
+export const getRefreshRuntimePaths = () => [
   reactRefreshEntryPath,
   reactRefreshPath,
   refreshUtilsPath,
-  refreshRuntimeDirPath,
+  getRefreshRuntimeDirPath(),
 ];

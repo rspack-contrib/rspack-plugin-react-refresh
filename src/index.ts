@@ -1,19 +1,18 @@
+import type { Compiler } from '@rspack/core';
 import { normalizeOptions } from './options';
+import type { NormalizedPluginOptions, PluginOptions } from './options';
 import {
+  getRefreshRuntimeDirPath,
+  getRefreshRuntimePaths,
   reactRefreshPath,
-  refreshRuntimeDirPath,
   refreshUtilsPath,
-  runtimePaths,
 } from './paths';
 import { getAdditionalEntries } from './utils/getAdditionalEntries';
+import { getIntegrationEntry } from './utils/getIntegrationEntry';
 import {
   type IntegrationType,
   getSocketIntegration,
 } from './utils/getSocketIntegration';
-
-import type { Compiler } from '@rspack/core';
-import type { NormalizedPluginOptions, PluginOptions } from './options';
-import { getIntegrationEntry } from './utils/getIntegrationEntry';
 
 export type { PluginOptions };
 
@@ -36,7 +35,13 @@ const PLUGIN_NAME = 'ReactRefreshRspackPlugin';
 class ReactRefreshRspackPlugin {
   options: NormalizedPluginOptions;
 
-  static deprecated_runtimePaths = runtimePaths;
+  /**
+   * @deprecated
+   */
+  static get deprecated_runtimePaths() {
+    return getRefreshRuntimePaths();
+  }
+
   static loader = 'builtin:react-refresh-loader';
 
   constructor(options: PluginOptions = {}) {
@@ -89,7 +94,9 @@ class ReactRefreshRspackPlugin {
         include: this.options.include!,
         exclude: {
           // biome-ignore lint: exists
-          or: [this.options.exclude!, [...runtimePaths]].filter(Boolean),
+          or: [this.options.exclude!, [...getRefreshRuntimePaths()]].filter(
+            Boolean,
+          ),
         },
         resourceQuery: this.options.resourceQuery,
         dependency: {
@@ -136,7 +143,7 @@ class ReactRefreshRspackPlugin {
     new compiler.webpack.ProvidePlugin(providedModules).apply(compiler);
 
     compiler.options.resolve.alias = {
-      'react-refresh': refreshRuntimeDirPath,
+      'react-refresh': getRefreshRuntimeDirPath(),
       ...compiler.options.resolve.alias,
     };
 
