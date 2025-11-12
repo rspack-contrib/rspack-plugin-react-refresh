@@ -1,13 +1,4 @@
 /* global __react_refresh_error_overlay__, __react_refresh_socket__, __resourceQuery */
-/**
- * The following code is modified based on
- * https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/f1c8b9a44198449093ca95f85af5df97925e1cfc/client/ErrorOverlayEntry.js
- *
- * MIT Licensed
- * Author Michael Mok
- * Copyright (c) 2019 Michael Mok
- * https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/0b960573797bf38926937994c481e4fec9ed8aa6/LICENSE
- */
 const events = require('./utils/errorEventHandlers.js');
 const formatWebpackErrors = require('./utils/formatWebpackErrors.js');
 const runWithRetry = require('./utils/retry.js');

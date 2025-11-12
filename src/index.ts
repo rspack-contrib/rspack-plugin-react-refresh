@@ -100,8 +100,8 @@ class ReactRefreshRspackPlugin {
         },
         resourceQuery: this.options.resourceQuery,
         dependency: {
-          // `new URL("static/sdk.js", import.meta.url)` the sdk.js is an asset module
-          // we shoudn't inject react refresh for asset module
+          // Assets loaded via `new URL("static/sdk.js", import.meta.url)` are asset modules
+          // React Refresh should not be injected for asset modules as they are static resources
           not: ['url'],
         },
         use: ReactRefreshRspackPlugin.loader,
