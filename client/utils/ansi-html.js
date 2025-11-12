@@ -1,15 +1,8 @@
 /* eslint-disable */
 // @ts-nocheck
 /**
- * The following code is modified based on
- * https://github.com/mahdyar/ansi-html-community/blob/b86cc3f1fa1d118477877352f0eafe1a70fd20ab/index.js
- *
- * Supported:
- *  - added support for 24-bit RGB colors.
- *
- * Apache 2.0 Licensed
- * Author @Tjatse
- * https://github.com/mahdyar/ansi-html-community/blob/master/LICENSE
+ * The following code is modified based on mahdyar/ansi-html-community
+ * Added support for 24-bit RGB colors.
  */
 'use strict';
 

@@ -1,13 +1,3 @@
-/**
- * The following code is modified based on
- * https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/0b960573797bf38926937994c481e4fec9ed8aa6/client/ReactRefreshEntry.js
- *
- * MIT Licensed
- * Author Michael Mok
- * Copyright (c) 2019 Michael Mok
- * https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/0b960573797bf38926937994c481e4fec9ed8aa6/LICENSE
- */
-
 var RefreshRuntime = require('react-refresh/runtime');
 var safeThis = (function () {
   // copied from core-js-pure/features/global-this
