@@ -41,7 +41,7 @@
     "@rslib/core": "^0.18.2",
     "@rspack/core": "^1.6.5",
     "@rstest/core": "^0.6.8",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24.10.1",
     "bumpp": "^10.3.2",
     "cac": "^6.7.14",
     "cross-env": "^10.1.0",
