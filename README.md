@@ -1,8 +1,3 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://assets.rspack.dev/rspack/rspack-banner-plain-dark.png">
-  <img alt="Rspack Banner" src="https://assets.rspack.dev/rspack/rspack-banner-plain-light.png">
-</picture>
-
 # @rspack/plugin-react-refresh
 
 <p>
@@ -102,12 +97,12 @@ Compared to the previous approach, this method decouples the React Fast Refresh 
 
 ### test
 
-- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Type: [Rspack.RuleSetCondition](https://rspack.rs/config/module-rules#condition)
 - Default: `undefined`
 
 Specifies which files should be processed by the React Refresh loader. This option is passed to the `builtin:react-refresh-loader` as the `rule.test` condition.
 
-Works identically to Rspack's [rule.test](https://rspack.dev/config/module#ruletest) option.
+Works identically to Rspack's [rule.test](https://rspack.rs/config/module-rules#rulestest) option.
 
 ```js
 new ReactRefreshPlugin({
@@ -117,14 +112,14 @@ new ReactRefreshPlugin({
 
 ### include
 
-- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Type: [Rspack.RuleSetCondition](https://rspack.rs/config/module-rules#condition)
 - Default: `/\.([cm]js|[jt]sx?|flow)$/i`
 
 Explicitly includes files to be processed by the React Refresh loader. This option is passed to the `builtin:react-refresh-loader` as the `rule.include` condition.
 
 Use this to limit processing to specific directories or file patterns.
 
-Works identically to Rspack's [rule.include](https://rspack.dev/config/module#ruleinclude) option.
+Works identically to Rspack's [rule.include](https://rspack.rs/config/module-rules#rulesinclude) option.
 
 ```js
 new ReactRefreshPlugin({
@@ -134,10 +129,10 @@ new ReactRefreshPlugin({
 
 ### exclude
 
-- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Type: [Rspack.RuleSetCondition](https://rspack.rs/config/module-rules#condition)
 - Default: `/node_modules/`
 
-Exclude files from being processed by the plugin. The value is the same as the [rule.exclude](https://rspack.dev/config/module#ruleexclude) option in Rspack.
+Exclude files from being processed by the plugin. The value is the same as the [rule.exclude](https://rspack.rs/config/module-rules#rulesexclude) option in Rspack.
 
 ```js
 new ReactRefreshPlugin({
@@ -147,10 +142,10 @@ new ReactRefreshPlugin({
 
 ### resourceQuery
 
-- Type: [Rspack.RuleSetCondition](https://rspack.dev/config/module#condition)
+- Type: [Rspack.RuleSetCondition](https://rspack.rs/config/module-rules#condition)
 - Default: `undefined`
 
-Can be used to exclude certain resources from being processed by the plugin by the resource query. The value is the same as the [rule.resourceQuery](https://rspack.dev/config/module#ruleresourcequery) option in Rspack.
+Can be used to exclude certain resources from being processed by the plugin by the resource query. The value is the same as the [rule.resourceQuery](https://rspack.rs/config/module-rules#rulesresourcequery) option in Rspack.
 
 For example, to exclude all resources with the `raw` query, such as `import rawTs from './ReactComponent.ts?raw';`, use the following:
 

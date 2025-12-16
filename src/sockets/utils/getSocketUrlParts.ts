@@ -123,7 +123,7 @@ export default function getSocketUrlParts(
         '[React Refresh] Failed to get an URL for the socket connection.',
         "This usually means that the current executed script doesn't have a `src` attribute set.",
         'You should either specify the socket path parameters under the `devServer` key in your Rspack config, or use the `overlay` option.',
-        'https://www.rspack.dev/guide/tech/react#fast-refresh',
+        'https://rspack.rs/guide/tech/react#fast-refresh',
       ].join('\n'),
     );
   }
