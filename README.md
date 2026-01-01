@@ -90,8 +90,8 @@ Compared to the previous approach, this method decouples the React Fast Refresh 
 
 ## Example
 
-- For usage with `builtin:swc-loader`, you can refer to the example at [examples/react-refresh](https://github.com/rspack-contrib/rspack-examples/tree/main/rspack/react-refresh/rspack.config.js), When using with `swc-loader`, simply replace `builtin:swc-loader` with `swc-loader`.
-- For usage with `babel-loader`, you can refer to the example at [examples/react-refresh-babel-loader](https://github.com/rspack-contrib/rspack-examples/tree/main/rspack/react-refresh-babel-loader/rspack.config.js)
+- For usage with `builtin:swc-loader`, you can refer to the example at [examples/react-refresh](https://github.com/rstackjs/rspack-examples/tree/main/rspack/react-refresh/rspack.config.js), When using with `swc-loader`, simply replace `builtin:swc-loader` with `swc-loader`.
+- For usage with `babel-loader`, you can refer to the example at [examples/react-refresh-babel-loader](https://github.com/rstackjs/rspack-examples/tree/main/rspack/react-refresh-babel-loader/rspack.config.js)
 
 ## Options
 
@@ -192,7 +192,7 @@ It is most useful when multiple instances of React Refresh is running together s
 
 Modify the behavior of the error overlay.
 
-Checkout [OverlayOptions](https://github.com/rspack-contrib/rspack-plugin-react-refresh/blob/main/src/options.ts#L4) type signature for more details.
+Checkout [OverlayOptions](https://github.com/rstackjs/rspack-plugin-react-refresh/blob/main/src/options.ts#L4) type signature for more details.
 
 - Enable the error overlay:
 
