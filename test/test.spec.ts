@@ -17,6 +17,7 @@ type CompilationCallback = (
   error: Error | null,
   stats: Stats | undefined,
   outputs: Outputs,
+  plugin: ReactRefreshPlugin,
 ) => void;
 
 const uniqueName = 'ReactRefreshLibrary';
@@ -26,10 +27,12 @@ const compileWithReactRefresh = (
   refreshOptions: PluginOptions,
   callback: CompilationCallback,
 ) => {
-  let dist = path.join(fixturePath, 'dist');
-  let cjsEntry = path.join(fixturePath, 'index.js');
-  let mjsEntry = path.join(fixturePath, 'index.mjs');
-  let entry = fs.existsSync(cjsEntry) ? cjsEntry : mjsEntry;
+  const dist = path.join(fixturePath, 'dist');
+  const cjsEntry = path.join(fixturePath, 'index.js');
+  const mjsEntry = path.join(fixturePath, 'index.mjs');
+  const customLoader = path.join(fixturePath, 'loader.js');
+  const entry = fs.existsSync(cjsEntry) ? cjsEntry : mjsEntry;
+  const plugin = new ReactRefreshPlugin(refreshOptions);
   rspack(
     {
       mode: 'development',
@@ -42,7 +45,12 @@ const compileWithReactRefresh = (
         uniqueName,
         assetModuleFilename: '[name][ext]',
       },
-      plugins: [new ReactRefreshPlugin(refreshOptions)],
+      resolveLoader: {
+        alias: {
+          'custom-react-refresh-loader': customLoader,
+        },
+      },
+      plugins: [plugin],
       optimization: {
         runtimeChunk: {
           name: 'runtime',
@@ -72,188 +80,255 @@ const compileWithReactRefresh = (
       const statsJson = stats.toJson({ all: true });
       expect(statsJson.errors).toHaveLength(0);
       expect(statsJson.warnings).toHaveLength(0);
-      callback(error, stats, {
-        reactRefresh: fs.readFileSync(
-          path.join(fixturePath, 'dist', 'react-refresh.js'),
-          'utf-8',
-        ),
-        fixture: fs.readFileSync(
-          path.join(fixturePath, 'dist', 'fixture.js'),
-          'utf-8',
-        ),
-        runtime: fs.readFileSync(
-          path.join(fixturePath, 'dist', 'runtime.js'),
-          'utf-8',
-        ),
-        vendor: fs.readFileSync(
-          path.join(fixturePath, 'dist', 'vendor.js'),
-          'utf-8',
-        ),
-      });
+      callback(
+        error,
+        stats,
+        {
+          reactRefresh: fs.readFileSync(
+            path.join(fixturePath, 'dist', 'react-refresh.js'),
+            'utf-8',
+          ),
+          fixture: fs.readFileSync(
+            path.join(fixturePath, 'dist', 'fixture.js'),
+            'utf-8',
+          ),
+          runtime: fs.readFileSync(
+            path.join(fixturePath, 'dist', 'runtime.js'),
+            'utf-8',
+          ),
+          vendor: fs.readFileSync(
+            path.join(fixturePath, 'dist', 'vendor.js'),
+            'utf-8',
+          ),
+        },
+        plugin,
+      );
     },
   );
 };
 
 describe('react-refresh-rspack-plugin', () => {
-  it('should exclude node_modules when compiling with default options', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/default'),
-      {},
-      (_, __, { reactRefresh, fixture, runtime, vendor }) => {
-        expect(vendor).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should include non node_modules when compiling with default options', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/default'),
-      {},
-      (_, __, { fixture }) => {
-        expect(fixture).toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should add library to make sure work in Micro-Frontend', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/default'),
-      {},
-      (_, __, { reactRefresh }) => {
-        expect(reactRefresh).toContain(uniqueName);
-        done();
-      },
-    );
-  });
-
-  it('should test selected file when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        exclude: null,
-        test: path.join(__dirname, 'fixtures/node_modules/foo'),
-        include: null,
-      },
-      (_, __, { vendor }) => {
-        expect(vendor).toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should include selected file when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        exclude: null,
-        include: path.join(__dirname, 'fixtures/node_modules/foo'),
-      },
-      (_, __, { vendor }) => {
-        expect(vendor).toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should exclude selected file when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        exclude: path.join(__dirname, 'fixtures/custom/index.js'),
-      },
-      (_, __, { fixture }) => {
-        expect(fixture).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should exclude selected file via `resourceQuery` when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/query'),
-      {
-        resourceQuery: { not: /raw/ },
-      },
-      (_, __, { vendor }) => {
-        expect(vendor).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should exclude url dependency when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/url'),
-      {},
-      (_, stats) => {
-        const json = stats!.toJson({ all: false, outputPath: true });
-        const asset = fs.readFileSync(
-          path.resolve(json.outputPath!, 'sdk.js'),
-          'utf-8',
-        );
-        expect(asset).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should allow custom inject loader when compiling', (done) => {
-    expect(ReactRefreshPlugin.loader).toBe('builtin:react-refresh-loader');
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        injectLoader: false,
-      },
-      (_, __, { reactRefresh, fixture, runtime, vendor }) => {
-        expect(fixture).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should allow custom inject entry when compiling', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        injectEntry: false,
-      },
-      (_, __, { reactRefresh, fixture, runtime, vendor }) => {
-        expect(reactRefresh).not.toContain(
-          'RefreshRuntime.injectIntoGlobalHook(safeThis)',
-        );
-        done();
-      },
-    );
-  });
-
-  it('should always exclude react-refresh related modules', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        exclude: null,
-      },
-      (_, __, { reactRefresh, fixture, runtime, vendor }) => {
-        expect(reactRefresh).not.toContain('function $RefreshReg$');
-        done();
-      },
-    );
-  });
-
-  it('should include entries for webpack-hot-middleware', (done) => {
-    compileWithReactRefresh(
-      path.join(__dirname, 'fixtures/custom'),
-      {
-        overlay: {
-          sockIntegration: 'whm',
+  it('should exclude node_modules when compiling with default options', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/default'),
+        {},
+        (_, __, { vendor }) => {
+          expect(vendor).not.toContain('function $RefreshReg$');
+          done();
         },
-      },
-      (_, __, { fixture }) => {
-        expect(fixture).toContain('webpack-hot-middleware/client');
-        expect(fixture).toContain('WHMEventSource.js');
-        done();
-      },
-    );
+      );
+    });
+  });
+
+  it('should include non node_modules when compiling with default options', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/default'),
+        {},
+        (_, __, { fixture }) => {
+          expect(fixture).toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should add library to make sure work in Micro-Frontend', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/default'),
+        {},
+        (_, __, { reactRefresh }) => {
+          expect(reactRefresh).toContain(uniqueName);
+          done();
+        },
+      );
+    });
+  });
+
+  it('should test selected file when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          exclude: null,
+          test: path.join(__dirname, 'fixtures/node_modules/foo'),
+          include: null,
+        },
+        (_, __, { vendor }) => {
+          expect(vendor).toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should include selected file when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          exclude: null,
+          include: path.join(__dirname, 'fixtures/node_modules/foo'),
+        },
+        (_, __, { vendor }) => {
+          expect(vendor).toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should exclude selected file when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          exclude: path.join(__dirname, 'fixtures/custom/index.js'),
+        },
+        (_, __, { fixture }) => {
+          expect(fixture).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should exclude selected file via `resourceQuery` when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/query'),
+        {
+          resourceQuery: { not: /raw/ },
+        },
+        (_, __, { vendor }) => {
+          expect(vendor).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should exclude url dependency when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/url'),
+        {},
+        (_, stats) => {
+          const json = stats!.toJson({ all: false, outputPath: true });
+          const asset = fs.readFileSync(
+            path.resolve(json.outputPath!, 'sdk.js'),
+            'utf-8',
+          );
+          expect(asset).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should allow custom inject loader when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          injectLoader: false,
+        },
+        (_, __, { fixture }, pl) => {
+          expect(pl.options.reactRefreshLoader).toBe(
+            'builtin:react-refresh-loader',
+          );
+          expect(fixture).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should allow custom inject entry when compiling', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          injectEntry: false,
+        },
+        (_, __, { reactRefresh }) => {
+          expect(reactRefresh).not.toContain(
+            'RefreshRuntime.injectIntoGlobalHook(safeThis)',
+          );
+          done();
+        },
+      );
+    });
+  });
+
+  it('should always exclude react-refresh related modules', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          exclude: null,
+        },
+        (_, __, { reactRefresh }) => {
+          expect(reactRefresh).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should include entries for webpack-hot-middleware', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/custom'),
+        {
+          overlay: {
+            sockIntegration: 'whm',
+          },
+        },
+        (_, __, { fixture }) => {
+          expect(fixture).toContain('webpack-hot-middleware/client');
+          expect(fixture).toContain('WHMEventSource.js');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should instrument the module with builtin:react-refresh-loader', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/loader'),
+        {},
+        (_, __, { fixture }, pl) => {
+          expect(pl.options.reactRefreshLoader).toBe(
+            'builtin:react-refresh-loader',
+          );
+          expect(fixture).not.toContain('TEST_LOADER');
+          expect(fixture).toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
+  });
+
+  it('should instrument the module with the custom loader', () => {
+    return new Promise<void>((done) => {
+      compileWithReactRefresh(
+        path.join(__dirname, 'fixtures/loader'),
+        {
+          reactRefreshLoader: 'custom-react-refresh-loader',
+        },
+        (_, __, { fixture }, pl) => {
+          expect(pl.options.reactRefreshLoader).toBe(
+            'custom-react-refresh-loader',
+          );
+          expect(fixture).toContain('TEST_LOADER');
+          expect(fixture).not.toContain('function $RefreshReg$');
+          done();
+        },
+      );
+    });
   });
 });

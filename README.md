@@ -227,6 +227,21 @@ new ReactRefreshPlugin({
 });
 ```
 
+### reactRefreshLoader
+
+- Type: `string`
+- Default: `builtin:react-refresh-loader`
+
+Be default, the plugin uses `builtin:react-refresh-loader` loader implementation [from Rspack](https://github.com/web-infra-dev/rspack/tree/main/crates/rspack_loader_react_refresh) in order ot inject
+the React Refresh utilities into each module. `reactRefreshLoader` option allows to specify the loader, that implements 
+custom React Refresh instrumentation if needed.
+
+```js
+new ReactRefreshPlugin({
+    reactRefreshLoader: 'my-advanced-react-refresh-loader',
+});
+```
+
 ## Credits
 
 Thanks to the [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin) created by [@pmmmwh](https://github.com/pmmmwh), which inspires implement this plugin.

@@ -42,8 +42,6 @@ class ReactRefreshRspackPlugin {
     return getRefreshRuntimePaths();
   }
 
-  static loader = 'builtin:react-refresh-loader';
-
   constructor(options: PluginOptions = {}) {
     this.options = normalizeOptions(options);
   }
@@ -104,7 +102,7 @@ class ReactRefreshRspackPlugin {
           // React Refresh should not be injected for asset modules as they are static resources
           not: ['url'],
         },
-        use: ReactRefreshRspackPlugin.loader,
+        use: this.options.reactRefreshLoader,
       });
     }
 
