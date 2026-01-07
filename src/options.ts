@@ -85,6 +85,11 @@ export type PluginOptions = {
    * @default false
    */
   reloadOnRuntimeErrors?: boolean;
+  /**
+   * Allows to specify custom react-refresh loader
+   * @default "builtin:react-refresh-loader"
+   */
+  reactRefreshLoader?: string;
 };
 
 export interface NormalizedPluginOptions extends Required<PluginOptions> {
@@ -135,6 +140,7 @@ export function normalizeOptions(
   d(options, 'injectLoader', true);
   d(options, 'injectEntry', true);
   d(options, 'reloadOnRuntimeErrors', false);
+  d(options, 'reactRefreshLoader', 'builtin:react-refresh-loader');
   options.overlay = normalizeOverlay(options.overlay);
   return options as NormalizedPluginOptions;
 }
