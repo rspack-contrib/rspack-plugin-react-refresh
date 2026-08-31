@@ -38,13 +38,13 @@
   },
   "devDependencies": {
     "@rslib/core": "^0.23.2",
-    "@rslint/core": "^0.8.1",
-    "@rspack/core": "2.1.10",
-    "@rstest/core": "^0.11.8",
+    "@rslint/core": "^0.9.0",
+    "@rspack/core": "2.2.1",
+    "@rstest/core": "^0.11.11",
     "@types/node": "^24.13.3",
     "prettier": "^3.9.6",
     "react-refresh": "^0.18.0",
-    "simple-git-hooks": "^2.13.1",
+    "simple-git-hooks": "^2.14.0",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
@@ -56,7 +56,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.24.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
