@@ -20,31 +20,25 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "rslib",
-    "dev": "rslib -w",
-    "lint": "rslint && prettier -c .",
-    "lint:write": "rslint --fix && prettier -w .",
-    "prepare": "simple-git-hooks",
-    "test": "rstest",
+    "build": "rs lib",
+    "bump": "pnpx bumpp --no-push --no-tag --no-commit",
+    "check": "rs check",
+    "dev": "rs lib -w",
+    "format": "rs fmt",
+    "lint": "rs lint",
+    "prepare": "rs hooks",
     "release": "node ./scripts/release.js",
-    "bump": "npx bumpp --no-push --no-tag --no-commit"
+    "test": "rs test"
   },
   "files": [
     "client",
     "dist"
   ],
-  "simple-git-hooks": {
-    "pre-commit": "pnpm run lint:write"
-  },
   "devDependencies": {
-    "@rslib/core": "^0.23.2",
-    "@rslint/core": "^0.9.0",
     "@rspack/core": "2.2.1",
-    "@rstest/core": "^0.11.11",
     "@types/node": "^24.13.3",
-    "prettier": "^3.9.6",
     "react-refresh": "^0.18.0",
-    "simple-git-hooks": "^2.14.0",
+    "rstack": "^0.7.2",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
